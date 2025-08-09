@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coaching Portal</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic Reset & Body Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%; /* Ensure container takes full width on small screens */
+        }
+
+        /* Header */
+        .main-header {
+            /* CORRECTED LINE BELOW: Added parentheses around gradient arguments and semicolon */
+            background: linear-gradient(to right, #007bff, #0056b3);
+            background: #007bff; /* Fallback for older browsers */
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .main-header h1 {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+
+        .main-header h1 a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .main-header nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .main-header nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header nav ul li a i {
+            margin-right: 8px;
+        }
+
+        .main-header nav ul li a:hover,
+        .main-header nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; /* Use flex for button content */
+            align-items: center;
+            justify-content: center;
+            background: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn.primary {
+            background: #007bff;
+        }
+
+        .btn.primary:hover {
+            background: #0056b3;
+        }
+
+        .btn.secondary {
+            background: #6c757d;
+        }
+
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn.tertiary {
+            background: #28a745; /* Green */
+        }
+
+        .btn.tertiary:hover {
+            background: #218838;
+        }
+
+        .btn.danger {
+            background: #dc3545;
+        }
+
+        .btn.danger:hover {
+            background: #c82333;
+        }
+
+        /* Forms */
+        .auth-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-top: 50px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-switch {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .auth-switch button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .auth-switch button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .auth-form {
+            padding-top: 20px;
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+
+        .auth-form .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Dashboard & Classroom Layouts */
+        .dashboard-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-grow: 1; /* Allow dashboard to take available space */
+        }
+
+        .dashboard-section h2 {
+            margin-bottom: 25px;
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 12px;
+            font-size: 1.7rem;
+            display: flex;
+            align-items: center;
+        }
+        .dashboard-section h2 i {
+            margin-right: 10px;
+        }
+
+        .dashboard-section h3 {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.4rem;
+        }
+
+        .form-container {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-container .btn {
+            margin-right: 10px;
+            margin-bottom: 10px; /* For stacking on small screens */
+        }
+
+        /* Dashboard Welcome */
+        .welcome-message {
+            background-color: #e0f2f7;
+            padding: 20px 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 5px solid #007bff;
+        }
+        .welcome-message h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .welcome-message p {
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        /* Classroom Cards */
+        .classroom-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .classroom-card {
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .classroom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .classroom-card h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .classroom-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .classroom-card .class-code {
+            font-family: monospace;
+            background-color: #e9ecef;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .card-actions {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+        .card-actions .btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+
+        /* Classroom Detail Section */
+        .classroom-detail-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .classroom-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .classroom-detail-header h2 {
+            margin: 0;
+            color: #007bff;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        .classroom-detail-header h2 i {
+            margin-right: 10px;
+        }
+
+        .classroom-detail-info {
+            margin-bottom: 25px;
+        }
+        .classroom-detail-info p {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+            color: #555;
+        }
+        .classroom-detail-info .class-code-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .classroom-detail-info .class-code-display code {
+            background-color: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1rem;
+        }
+        .classroom-detail-info .class-code-display button {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+
+        /* Tabs for Classroom Detail */
+        .classroom-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling for tabs */
+            -webkit-overflow-scrolling: touch; /* Smoother scrolling on iOS */
+        }
+
+        .classroom-tabs button {
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent tabs from wrapping */
+        }
+
+        .classroom-tabs button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .tab-content-section {
+            padding: 20px 0;
+        }
+
+        .tab-content-section h4 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: #444;
+            display: flex;
+            align-items: center;
+        }
+        .tab-content-section h4 i {
+            margin-right: 8px;
+            color: #007bff;
+        }
+
+
+        /* List Styling for various features */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list-item {
+            background-color: #fdfdfd;
+            border: 1px solid #e9e9e9;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow content to wrap */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .feature-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-list-item h5 {
+            font-size: 1.1rem;
+            color: #007bff;
+            margin-bottom: 5px;
+            width: 100%; /* Take full width on small screens */
+        }
+
+        .feature-list-item p {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0;
+            flex-grow: 1; /* Allow content to grow */
+        }
+
+        .feature-list-item .item-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+            margin-top: 10px; /* Space from description on wrap */
+        }
+        .feature-list-item .item-actions .btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+        .feature-list-item.is-paid p {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .feature-list-item.is-due p {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+
+        /* Attendance Specific Styling */
+        .attendance-date-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .attendance-date-selector input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .attendance-student-list .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+        }
+        .attendance-student-list .student-item span {
+            font-weight: 600;
+            color: #333;
+            flex-grow: 1;
+        }
+        .attendance-student-list .student-item .attendance-status {
+            font-weight: bold;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap; /* Prevent status from wrapping */
+        }
+        .attendance-student-list .student-item .attendance-status.Present { background-color: #d4edda; color: #155724; }
+        .attendance-student-list .student-item .attendance-status.Absent { background-color: #f8d7da; color: #721c24; }
+        .attendance-student-list .student-item .attendance-status.Late { background-color: #fff3cd; color: #856404; }
+        .attendance-student-list .student-item .attendance-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .attendance-student-list .student-item .attendance-buttons .btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+
+        /* No Content Message */
+        .no-content-message {
+            text-align: center;
+            padding: 30px;
+            background-color: #f0f8ff;
+            border: 1px dashed #cce7ff;
+            border-radius: 8px;
+            color: #007bff;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .no-content-message i {
+            margin-right: 8px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-header .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .main-header h1 {
+                margin-bottom: 15px;
+            }
+            .main-header nav ul {
+                width: 100%;
+                justify-content: center;
+            }
+            .main-header nav ul li {
+                margin: 0 10px 10px 10px;
+            }
+            .auth-container {
+                margin-top: 20px;
+                padding: 25px;
+            }
+            .auth-form h2 {
+                font-size: 1.5rem;
+            }
+            .dashboard-content {
+                padding: 15px;
+            }
+            .dashboard-section h2 {
+                font-size: 1.5rem;
+            }
+            .dashboard-section h3 {
+                font-size: 1.2rem;
+            }
+            .classroom-list {
+                grid-template-columns: 1fr; /* Stack cards vertically */
+            }
+            .classroom-detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .classroom-detail-header h2 {
+                margin-bottom: 15px;
+            }
+            .classroom-tabs {
+                flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+                justify-content: center;
+            }
+            .classroom-tabs button {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+            }
+            .feature-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .feature-list-item .item-actions {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: 15px;
+            }
+            .attendance-student-list .student-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .attendance-student-list .student-item span {
+                margin-bottom: 10px;
+            }
+            .attendance-student-list .student-item .attendance-status {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+            .attendance-student-list .student-item .attendance-buttons {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1><a href="#">Coaching Portal</a></h1>
+            <nav id="mainNav" class="hidden">
+                <ul>
+                    <li><a href="#" id="dashboardLink" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#" id="profileLink"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Login/Signup Section -->
+        <section id="authSection" class="auth-container">
+            <div class="auth-switch">
+                <button id="showLoginBtn" class="active">Login</button>
+                <button id="showSignupBtn">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <p class="message" id="loginMessage"></p>
+            </form>
+
+            <form id="signupForm" class="auth-form hidden">
+                <h2>Sign Up</h2>
+                <div class="form-group">
+                    <label for="signupName">Full Name:</label>
+                    <input type="text" id="signupName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email:</label>
+                    <input type="email" id="signupEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password:</label>
+                    <input type="password" id="signupPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupRole">I am a:</label>
+                    <select id="signupRole" name="role" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary"><i class="fas fa-user-plus"></i> Sign Up</button>
+                <p class="message" id="signupMessage"></p>
+            </form>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="dashboard-content hidden">
+            <div class="welcome-message">
+                <h3>Welcome, <span id="welcomeUserName"></span>!</h3>
+                <p>Manage your classrooms, assignments, notes, and fees all in one place.</p>
+            </div>
+
+            <div id="teacherDashboard" class="dashboard-section hidden">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Teacher Dashboard</h2>
+                <button class="btn primary" id="createClassBtn"><i class="fas fa-plus-circle"></i> Create New Classroom</button>
+
+                <div id="createClassFormContainer" class="form-container hidden">
+                    <h3>Create Classroom</h3>
+                    <form id="createClassForm">
+                        <div class="form-group">
+                            <label for="className">Class Name:</label>
+                            <input type="text" id="className" name="className" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="classDescription">Description:</label>
+                            <textarea id="classDescription" name="classDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn primary"><i class="fas fa-chalkboard"></i> Create Class</button>
+                        <button type="button" class="btn secondary" id="cancelCreateClassBtn"><i class="fas fa-times"></i> Cancel</button>
+                        <p class="message" id="createClassMessage"></p>
+                    </form>
+                </div>
+
+                <h3>My Classrooms</h3>
+                <div id="teacherClassroomsList" class="classroom-list">
+                    <!-- Classrooms will be loaded here by JS -->
+                    <p id="noTeacherClasses" class="no-content-message"><i class="fas fa-info-circle"></i> No classrooms created yet. Create one to get started!</p>
+                </div>
+            </div>
+
+            <div id="studentDashboard" class="dashboard-section hidden">
+                <h2><i class="fas fa-user-graduate"></i> Student Dashboard</h2>
+                <div class="join-class-section">
+                    <h3>Join a Classroom</h3>
+                    <form id="joinClassForm">
+                        <div class="form-group">
+                            <label for="classCode">Classroom Code:</label>
+                            <input type="text" id="classCode" name="classCode" placeholder="e.g., ABC123" required>
+                        </div>
+                        <button type="submit" class="btn primary"><i class="fas fa-door-open"></i> Join Class</button>
+                        <p class="message" id="joinClassMessage"></p>
+                    </form>
+                </div>
+
+                <h3>My Joined Classrooms</h3>
+                <div id="studentClassroomsList" class="classroom-list">
+                    <!-- Joined classrooms will be loaded here by JS -->
+                    <p id="noStudentClasses" class="no-content-message"><i class="fas fa-info-circle"></i> You haven't joined any classrooms yet. Join one using a code!</p>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profileSection" class="dashboard-section hidden">
+                <h2><i class="fas fa-user-circle"></i> My Profile</h2>
+                <p><strong>Name:</strong> <span id="profileName"></span></p>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <p><strong>Role:</strong> <span id="profileRole"></span></p>
+                <button class="btn secondary" disabled><i class="fas fa-edit"></i> Edit Profile (Coming Soon)</button>
+            </div>
+        </section>
+
+        <!-- Classroom Detail View (Dynamic) -->
+        <section id="classroomDetailSection" class="classroom-detail-section hidden">
+            <div class="classroom-detail-header">
+                <h2 id="classroomDetailName"></h2>
+                <button class="btn secondary" id="backToDashboardBtn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+            </div>
+            <div class="classroom-detail-info">
+                <p><strong>Description:</strong> <span id="classroomDetailDescription"></span></p>
+                <div id="teacherClassCodeDisplay" class="class-code-display hidden">
+                    <p><strong>Class Code:</strong> <code id="classroomDetailCode"></code></p>
+                    <button class="btn tertiary" id="copyClassCodeBtn"><i class="fas fa-copy"></i> Copy</button>
+                    <span id="copyMessage" class="message success hidden" style="font-size: 0.85rem; padding: 5px;">Copied!</span>
+                </div>
+            </div>
+
+            <div class="classroom-tabs">
+                <button class="active" data-tab="attendanceTab"><i class="fas fa-clipboard-check"></i> Attendance</button>
+                <button data-tab="assignmentsTab"><i class="fas fa-tasks"></i> Assignments</button>
+                <button data-tab="notesTab"><i class="fas fa-book"></i> Class Notes</button>
+                <button data-tab="feesTab"><i class="fas fa-money-bill-wave"></i> Fees</button>
+            </div>
+
+            <div id="attendanceTab" class="tab-content-section">
+                <h4><i class="fas fa-clipboard-check"></i> Attendance</h4>
+                <div id="teacherAttendanceControls" class="form-container hidden">
+                    <h5>Mark Attendance for <span id="attendanceDateDisplay"></span></h5>
+                    <div class="attendance-date-selector">
+                        <label for="attendanceDate">Date:</label>
+                        <input type="date" id="attendanceDate" value="">
+                        <button class="btn primary" id="loadAttendanceForDateBtn"><i class="fas fa-search"></i> Load Students</button>
+                    </div>
+                    <p class="message" id="attendanceMessage"></p>
+                    <div id="attendanceStudentList" class="attendance-student-list">
+                        <!-- Students for attendance will be loaded here -->
+                        <p class="no-content-message" id="noStudentsForAttendance"><i class="fas fa-info-circle"></i> Select a date to mark attendance.</p>
+                    </div>
+                    <button class="btn tertiary hidden" id="saveAttendanceBtn"><i class="fas fa-save"></i> Save Attendance</button>
+                </div>
+                <div id="studentAttendanceHistory" class="hidden">
+                    <h5>My Attendance History</h5>
+                    <div id="studentAttendanceList" class="attendance-student-list">
+                        <!-- Student's attendance history will be loaded here -->
+                        <p class="no-content-message" id="noStudentAttendanceHistory"><i class="fas fa-info-circle"></i> No attendance records for you yet in this class.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="assignmentsTab" class="tab-content-section hidden">
+                <h4><i class="fas fa-tasks"></i> Assignments</h4>
+                <div id="teacherAssignmentControls" class="form-container hidden">
+                    <h5>Create New Assignment</h5>
+                    <form id="createAssignmentForm">
+                        <div class="form-group">
+                            <label for="assignmentTitle">Title:</label>
+                            <input type="text" id="assignmentTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentDescription">Description:</label>
+                            <textarea id="assignmentDescription" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignmentDueDate">Due Date:</label>
+                            <input type="date" id="assignmentDueDate" required>
+                        </div>
+                        <button type="submit" class="btn primary"><i class="fas fa-plus"></i> Create Assignment</button>
+                        <p class="message" id="assignmentMessage"></p>
+                    </form>
+                </div>
+                <h5>All Assignments</h5>
+                <ul id="assignmentList" class="feature-list">
+                    <!-- Assignments will be loaded here -->
+                    <p class="no-content-message" id="noAssignmentsMessage"><i class="fas fa-info-circle"></i> No assignments posted yet.</p>
+                </ul>
+            </div>
+
+            <div id="notesTab" class="tab-content-section hidden">
+                <h4><i class="fas fa-book"></i> Class Notes</h4>
+                <div id="teacherNotesControls" class="form-container hidden">
+                    <h5>Add New Note</h5>
+                    <form id="createNoteForm">
+                        <div class="form-group">
+                            <label for="noteTitle">Title:</label>
+                            <input type="text" id="noteTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="noteContent">Content:</label>
+                            <textarea id="noteContent" rows="6"></textarea>
+                        </div>
+                        <button type="submit" class="btn primary"><i class="fas fa-plus"></i> Add Note</button>
+                        <p class="message" id="noteMessage"></p>
+                    </form>
+                </div>
+                <h5>All Notes</h5>
+                <ul id="notesList" class="feature-list">
+                    <!-- Notes will be loaded here -->
+                    <p class="no-content-message" id="noNotesMessage"><i class="fas fa-info-circle"></i> No notes shared yet.</p>
+                </ul>
+            </div>
+
+            <div id="feesTab" class="tab-content-section hidden">
+                <h4><i class="fas fa-money-bill-wave"></i> Fees</h4>
+                <div id="teacherFeesControls" class="form-container hidden">
+                    <h5>Set/Record Fee Payments</h5>
+                    <p class="message" id="feesMessage"></p>
+                    <div id="teacherFeeList">
+                        <!-- Teacher's view of student fees -->
+                        <p class="no-content-message" id="noStudentsForFees"><i class="fas fa-info-circle"></i> No students in this class to manage fees for.</p>
+                    </div>
+                </div>
+                <div id="studentFeesHistory" class="hidden">
+                    <h5>My Fees</h5>
+                    <div id="studentFeeList">
+                        <!-- Student's view of their own fees -->
+                        <p class="no-content-message" id="noStudentFeesHistory"><i class="fas fa-info-circle"></i> No fees recorded for you yet in this class.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // script.js (Frontend Logic - embedded)
+
+        const API_BASE_URL = 'http://localhost:3000/api'; // Ensure this matches your backend port
+
+        // DOM Elements
+        const authSection = document.getElementById('authSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const mainNav = document.getElementById('mainNav');
+        const welcomeUserName = document.getElementById('welcomeUserName');
+
+        const showLoginBtn = document.getElementById('showLoginBtn');
+        const showSignupBtn = document.getElementById('showSignupBtn');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const signupMessage = document.getElementById('signupMessage');
+
+        const teacherDashboard = document.getElementById('teacherDashboard');
+        const studentDashboard = document.getElementById('studentDashboard');
+        const profileSection = document.getElementById('profileSection');
+        const dashboardLink = document.getElementById('dashboardLink');
+        const profileLink = document.getElementById('profileLink');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        const createClassBtn = document.getElementById('createClassBtn');
+        const createClassFormContainer = document.getElementById('createClassFormContainer');
+        const cancelCreateClassBtn = document.getElementById('cancelCreateClassBtn');
+        const createClassForm = document.getElementById('createClassForm');
+        const createClassMessage = document.getElementById('createClassMessage');
+        const teacherClassroomsList = document.getElementById('teacherClassroomsList');
+        const noTeacherClasses = document.getElementById('noTeacherClasses');
+
+        const joinClassForm = document.getElementById('joinClassForm');
+        const joinClassMessage = document.getElementById('joinClassMessage');
+        const studentClassroomsList = document.getElementById('studentClassroomsList');
+        const noStudentClasses = document.getElementById('noStudentClasses');
+
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profileRole = document.getElementById('profileRole');
+
+        // Classroom Detail View Elements
+        const classroomDetailSection = document.getElementById('classroomDetailSection');
+        const classroomDetailName = document.getElementById('classroomDetailName');
+        const classroomDetailDescription = document.getElementById('classroomDetailDescription');
+        const teacherClassCodeDisplay = document.getElementById('teacherClassCodeDisplay');
+        const classroomDetailCode = document.getElementById('classroomDetailCode');
+        const copyClassCodeBtn = document.getElementById('copyClassCodeBtn');
+        const copyMessage = document.getElementById('copyMessage');
+        const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+
+        const classroomTabs = document.querySelector('.classroom-tabs');
+        const tabContents = document.querySelectorAll('.tab-content-section');
+
+        // Attendance elements
+        const attendanceTab = document.getElementById('attendanceTab');
+        const teacherAttendanceControls = document.getElementById('teacherAttendanceControls');
+        const studentAttendanceHistory = document.getElementById('studentAttendanceHistory');
+        const attendanceDate = document.getElementById('attendanceDate');
+        const attendanceDateDisplay = document.getElementById('attendanceDateDisplay');
+        const loadAttendanceForDateBtn = document.getElementById('loadAttendanceForDateBtn');
+        const attendanceMessage = document.getElementById('attendanceMessage');
+        const attendanceStudentList = document.getElementById('attendanceStudentList'); // For marking
+        const studentAttendanceList = document.getElementById('studentAttendanceList'); // For viewing
+        const noStudentsForAttendance = document.getElementById('noStudentsForAttendance');
+        const noStudentAttendanceHistory = document.getElementById('noStudentAttendanceHistory');
+        const saveAttendanceBtn = document.getElementById('saveAttendanceBtn');
+
+        // Assignments elements
+        const assignmentsTab = document.getElementById('assignmentsTab');
+        const teacherAssignmentControls = document.getElementById('teacherAssignmentControls');
+        const createAssignmentForm = document.getElementById('createAssignmentForm');
+        const assignmentTitle = document.getElementById('assignmentTitle');
+        const assignmentDescription = document.getElementById('assignmentDescription');
+        const assignmentDueDate = document.getElementById('assignmentDueDate');
+        const assignmentMessage = document.getElementById('assignmentMessage');
+        const assignmentList = document.getElementById('assignmentList');
+        const noAssignmentsMessage = document.getElementById('noAssignmentsMessage');
+
+        // Notes elements
+        const notesTab = document.getElementById('notesTab');
+        const teacherNotesControls = document.getElementById('teacherNotesControls');
+        const createNoteForm = document.getElementById('createNoteForm');
+        const noteTitle = document.getElementById('noteTitle');
+        const noteContent = document.getElementById('noteContent');
+        const noteMessage = document.getElementById('noteMessage');
+        const notesList = document.getElementById('notesList');
+        const noNotesMessage = document.getElementById('noNotesMessage');
+
+        // Fees elements
+        const feesTab = document.getElementById('feesTab');
+        const teacherFeesControls = document.getElementById('teacherFeesControls');
+        const studentFeesHistory = document.getElementById('studentFeesHistory');
+        const feesMessage = document.getElementById('feesMessage');
+        const teacherFeeList = document.getElementById('teacherFeeList');
+        const studentFeeList = document.getElementById('studentFeeList');
+        const noStudentsForFees = document.getElementById('noStudentsForFees');
+        const noStudentFeesHistory = document.getElementById('noStudentFeesHistory');
+
+
+        let currentClassroom = null; // Stores the classroom object for detail view
+
+        // Helper function to display messages
+        const showMessage = (element, msg, type = 'error', timeout = 3000) => {
+            element.textContent = msg;
+            element.className = `message ${type}`;
+            element.classList.remove('hidden'); // Ensure it's visible
+            if (timeout) {
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                    element.textContent = '';
+                }, timeout);
+            }
+        };
+
+        const clearMessage = (element) => {
+            element.textContent = '';
+            element.className = 'message';
+            element.classList.add('hidden');
+        };
+
+        const formatDate = (dateString) => {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+
+        // --- Core UI Management ---
+        const renderUI = () => {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (token && userRole) {
+                // User is logged in
+                authSection.classList.add('hidden');
+                dashboardSection.classList.remove('hidden');
+                mainNav.classList.remove('hidden');
+                classroomDetailSection.classList.add('hidden'); // Ensure detail view is hidden
+
+                welcomeUserName.textContent = userName || 'N/A';
+                profileName.textContent = userName || 'N/A';
+                profileEmail.textContent = userEmail || 'N/A';
+                profileRole.textContent = userRole || 'N/A';
+
+                // Display appropriate dashboard
+                teacherDashboard.classList.add('hidden');
+                studentDashboard.classList.add('hidden');
+                profileSection.classList.add('hidden');
+
+                if (userRole === 'teacher') {
+                    teacherDashboard.classList.remove('hidden');
+                } else if (userRole === 'student') {
+                    studentDashboard.classList.remove('hidden');
+                }
+                dashboardLink.classList.add('active');
+                profileLink.classList.remove('active');
+
+                loadDashboardContent(); // Load data for the dashboard
+            } else {
+                // User is not logged in
+                authSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+                mainNav.classList.add('hidden');
+            }
+        };
+
+        const loadDashboardContent = async () => {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+
+            if (!token || !userRole) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    renderClassrooms(data.classrooms, userRole);
+                } else {
+                    console.error('Failed to fetch classrooms:', data.message);
+                    showMessage(userRole === 'teacher' ? teacherClassroomsList : studentClassroomsList, `Error loading classrooms: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Network error fetching classrooms:', error);
+                showMessage(userRole === 'teacher' ? teacherClassroomsList : studentClassroomsList, 'Network error. Could not load classrooms.', 'error');
+            }
+        };
+
+        const renderClassrooms = (classrooms, userRole) => {
+            if (userRole === 'teacher') {
+                teacherClassroomsList.innerHTML = '';
+                if (classrooms.length === 0) {
+                    noTeacherClasses.classList.remove('hidden');
+                    teacherClassroomsList.appendChild(noTeacherClasses);
+                    return;
+                }
+                noTeacherClasses.classList.add('hidden');
+                classrooms.forEach(classroom => {
+                    const card = document.createElement('div');
+                    card.classList.add('classroom-card');
+                    card.innerHTML = `
+                        <h4><i class="fas fa-chalkboard"></i> ${classroom.name}</h4>
+                        <p>${classroom.description || 'No description provided.'}</p>
+                        <p><strong>Class Code:</strong> <code class="class-code">${classroom.class_code}</code></p>
+                        <div class="card-actions">
+                            <button class="btn secondary view-class-btn" data-id="${classroom.id}"><i class="fas fa-eye"></i> View Details</button>
+                        </div>
+                    `;
+                    teacherClassroomsList.appendChild(card);
+                });
+            } else if (userRole === 'student') {
+                studentClassroomsList.innerHTML = '';
+                if (classrooms.length === 0) {
+                    noStudentClasses.classList.remove('hidden');
+                    studentClassroomsList.appendChild(noStudentClasses);
+                    return;
+                }
+                noStudentClasses.classList.add('hidden');
+                classrooms.forEach(classroom => {
+                    const card = document.createElement('div');
+                    card.classList.add('classroom-card');
+                    card.innerHTML = `
+                        <h4><i class="fas fa-chalkboard"></i> ${classroom.name}</h4>
+                        <p>${classroom.description || 'No description provided.'}</p>
+                        <p>Teacher: <strong>${classroom.teacher_name || 'N/A'}</strong></p>
+                        <div class="card-actions">
+                            <button class="btn tertiary view-class-btn" data-id="${classroom.id}"><i class="fas fa-door-open"></i> Go to Class</button>
+                        </div>
+                    `;
+                    studentClassroomsList.appendChild(card);
+                });
+            }
+            // Add event listeners to newly rendered buttons
+            document.querySelectorAll('.view-class-btn').forEach(button => {
+                button.addEventListener('click', (e) => showClassroomDetail(e.currentTarget.dataset.id));
+            });
+        };
+
+        const showClassroomDetail = async (classroomId) => {
+            dashboardSection.classList.add('hidden');
+            classroomDetailSection.classList.remove('hidden');
+            currentClassroom = null; // Clear previous classroom data
+
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentClassroom = data.classroom;
+                    classroomDetailName.textContent = currentClassroom.name;
+                    classroomDetailDescription.textContent = currentClassroom.description || 'No description provided.';
+
+                    if (userRole === 'teacher') {
+                        teacherClassCodeDisplay.classList.remove('hidden');
+                        classroomDetailCode.textContent = currentClassroom.class_code;
+                        teacherAttendanceControls.classList.remove('hidden');
+                        teacherAssignmentControls.classList.remove('hidden');
+                        teacherNotesControls.classList.remove('hidden');
+                        teacherFeesControls.classList.remove('hidden');
+                        studentAttendanceHistory.classList.add('hidden'); // Hide student sections
+                        studentFeesHistory.classList.add('hidden');
+                    } else { // Student
+                        teacherClassCodeDisplay.classList.add('hidden');
+                        teacherAttendanceControls.classList.add('hidden');
+                        teacherAssignmentControls.classList.add('hidden');
+                        teacherNotesControls.classList.add('hidden');
+                        teacherFeesControls.classList.add('hidden');
+                        studentAttendanceHistory.classList.remove('hidden'); // Show student sections
+                        studentFeesHistory.classList.remove('hidden');
+                    }
+
+                    // Reset tabs and show the first one (Attendance)
+                    classroomTabs.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(tab => tab.classList.add('hidden'));
+                    classroomTabs.querySelector('[data-tab="attendanceTab"]').classList.add('active');
+                    attendanceTab.classList.remove('hidden');
+
+                    // Load initial data for the default tab (Attendance)
+                    if (userRole === 'teacher') {
+                         // Set attendance date to today by default
+                        const today = new Date().toISOString().split('T')[0];
+                        attendanceDate.value = today;
+                        attendanceDateDisplay.textContent = formatDate(today);
+                        loadAttendanceForDate(currentClassroom.id, today);
+                    } else if (userRole === 'student') {
+                        loadStudentAttendanceHistory(currentClassroom.id);
+                    }
+                    loadAssignments(currentClassroom.id);
+                    loadNotes(currentClassroom.id);
+                    loadFees(currentClassroom.id);
+
+                } else {
+                    showMessage(classroomDetailSection, data.message || 'Failed to load classroom details', 'error');
+                    backToDashboardBtn.click(); // Go back on error
+                }
+            } catch (error) {
+                console.error('Error fetching classroom details:', error);
+                showMessage(classroomDetailSection, 'Network error. Could not load classroom details.', 'error');
+                backToDashboardBtn.click(); // Go back on error
+            }
+        };
+
+        // --- Tab Navigation in Classroom Detail ---
+        classroomTabs.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                classroomTabs.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                tabContents.forEach(tab => tab.classList.add('hidden'));
+                document.getElementById(e.target.dataset.tab).classList.remove('hidden');
+            }
+        });
+
+        // --- Attendance Logic ---
+        const loadAttendanceForDate = async (classroomId, date) => {
+            clearMessage(attendanceMessage);
+            attendanceStudentList.innerHTML = '';
+            noStudentsForAttendance.classList.add('hidden');
+            saveAttendanceBtn.classList.add('hidden');
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}/attendance?date=${date}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.students && data.students.length > 0) {
+                        data.students.forEach(student => {
+                            const studentItem = document.createElement('div');
+                            studentItem.classList.add('student-item');
+                            studentItem.dataset.studentId = student.id;
+                            const status = student.attendance_status || 'Unmarked'; // Default to Unmarked
+                            studentItem.innerHTML = `
+                                <span>${student.full_name}</span>
+                                <div class="attendance-buttons">
+                                    <button class="btn tertiary mark-attendance-btn" data-status="Present"><i class="fas fa-check"></i> Present</button>
+                                    <button class="btn danger mark-attendance-btn" data-status="Absent"><i class="fas fa-times"></i> Absent</button>
+                                    <button class="btn secondary mark-attendance-btn" data-status="Late"><i class="fas fa-clock"></i> Late</button>
+                                </div>
+                                <span class="attendance-status ${status}">${status}</span>
+                            `;
+                            // Highlight the active button
+                            studentItem.querySelectorAll('.mark-attendance-btn').forEach(btn => {
+                                if (btn.dataset.status === status) {
+                                    btn.classList.add('active'); // Add a visual active state for buttons
+                                }
+                            });
+                            attendanceStudentList.appendChild(studentItem);
+                        });
+                        saveAttendanceBtn.classList.remove('hidden');
+                    } else {
+                        noStudentsForAttendance.classList.remove('hidden');
+                    }
+                } else {
+                    showMessage(attendanceMessage, data.message || 'Failed to load attendance.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+                showMessage(attendanceMessage, 'Network error loading attendance.', 'error');
+            }
+        };
+
+        const loadStudentAttendanceHistory = async (classroomId) => {
+            studentAttendanceList.innerHTML = '';
+            noStudentAttendanceHistory.classList.add('hidden');
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}/attendance`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.attendance_history && data.attendance_history.length > 0) {
+                        data.attendance_history.forEach(record => {
+                            const item = document.createElement('div');
+                            item.classList.add('student-item');
+                            item.innerHTML = `
+                                <span>${formatDate(record.date)}</span>
+                                <span class="attendance-status ${record.status}">${record.status}</span>
+                            `;
+                            studentAttendanceList.appendChild(item);
+                        });
+                    } else {
+                        noStudentAttendanceHistory.classList.remove('hidden');
+                    }
+                } else {
+                    console.error('Failed to load student attendance:', data.message);
+                    showMessage(attendanceMessage, data.message || 'Failed to load your attendance history.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading student attendance history:', error);
+                showMessage(attendanceMessage, 'Network error loading your attendance history.', 'error');
+            }
+        };
+
+
+        loadAttendanceForDateBtn.addEventListener('click', () => {
+            if (currentClassroom && attendanceDate.value) {
+                attendanceDateDisplay.textContent = formatDate(attendanceDate.value);
+                loadAttendanceForDate(currentClassroom.id, attendanceDate.value);
+            } else {
+                showMessage(attendanceMessage, 'Please select a date.', 'error');
+            }
+        });
+
+        attendanceStudentList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('mark-attendance-btn')) {
+                const studentItem = e.target.closest('.student-item');
+                const studentId = studentItem.dataset.studentId;
+                const status = e.target.dataset.status;
+
+                // Update UI immediately
+                studentItem.querySelector('.attendance-status').textContent = status;
+                studentItem.querySelector('.attendance-status').className = `attendance-status ${status}`;
+                studentItem.querySelectorAll('.mark-attendance-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Store in a temporary array for batch saving
+                const existingIndex = attendanceRecordsToSave.findIndex(r => r.studentId === parseInt(studentId));
+                if (existingIndex > -1) {
+                    attendanceRecordsToSave[existingIndex].status = status;
+                } else {
+                    attendanceRecordsToSave.push({ studentId: parseInt(studentId), status });
+                }
+            }
+        });
+
+        let attendanceRecordsToSave = []; // To store changes before saving
+
+        saveAttendanceBtn.addEventListener('click', async () => {
+            if (!currentClassroom || !attendanceDate.value || attendanceRecordsToSave.length === 0) {
+                showMessage(attendanceMessage, 'No attendance changes to save or date not selected.', 'info');
+                return;
+            }
+
+            showMessage(attendanceMessage, 'Saving attendance...', 'info');
+            const token = localStorage.getItem('token');
+            const attendanceData = {
+                date: attendanceDate.value,
+                records: attendanceRecordsToSave
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${currentClassroom.id}/attendance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(attendanceData),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(attendanceMessage, data.message, 'success');
+                    attendanceRecordsToSave = []; // Clear array after successful save
+                    loadAttendanceForDate(currentClassroom.id, attendanceDate.value); // Reload to reflect saved state
+                } else {
+                    showMessage(attendanceMessage, data.message || 'Failed to save attendance.', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving attendance:', error);
+                showMessage(attendanceMessage, 'Network error saving attendance.', 'error');
+            }
+        });
+
+
+        // --- Assignment Logic ---
+        const loadAssignments = async (classroomId) => {
+            assignmentList.innerHTML = '';
+            noAssignmentsMessage.classList.add('hidden');
+
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}/assignments`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.assignments && data.assignments.length > 0) {
+                        data.assignments.forEach(assignment => {
+                            const listItem = document.createElement('li');
+                            listItem.classList.add('feature-list-item');
+                            listItem.innerHTML = `
+                                <div>
+                                    <h5>${assignment.title}</h5>
+                                    <p>${assignment.description || 'No description.'}</p>
+                                    <p>Due: <strong>${formatDate(assignment.due_date)}</strong></p>
+                                </div>
+                                <div class="item-actions">
+                                    ${userRole === 'student' ? `<button class="btn primary submit-assignment-btn" data-assignment-id="${assignment.id}"><i class="fas fa-paper-plane"></i> Submit</button>` : `<button class="btn secondary view-submissions-btn" data-assignment-id="${assignment.id}"><i class="fas fa-eye"></i> View Submissions</button>`}
+                                </div>
+                            `;
+                            assignmentList.appendChild(listItem);
+                        });
+
+                        // Add event listeners for new buttons
+                        if (userRole === 'student') {
+                            document.querySelectorAll('.submit-assignment-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    const assignmentId = e.target.dataset.assignmentId;
+                                    // For simplicity, prompt for submission text
+                                    const submissionText = prompt('Enter your assignment submission (e.g., a link to a document, or your answers):');
+                                    if (submissionText) {
+                                        submitAssignment(assignmentId, submissionText);
+                                    }
+                                });
+                            });
+                        } else if (userRole === 'teacher') {
+                             document.querySelectorAll('.view-submissions-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    const assignmentId = e.target.dataset.assignmentId;
+                                    viewAssignmentSubmissions(assignmentId);
+                                });
+                            });
+                        }
+
+                    } else {
+                        noAssignmentsMessage.classList.remove('hidden');
+                    }
+                } else {
+                    showMessage(assignmentMessage, data.message || 'Failed to load assignments.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading assignments:', error);
+                showMessage(assignmentMessage, 'Network error loading assignments.', 'error');
+            }
+        };
+
+        createAssignmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showMessage(assignmentMessage, 'Creating assignment...', 'info');
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${currentClassroom.id}/assignments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title: assignmentTitle.value,
+                        description: assignmentDescription.value,
+                        due_date: assignmentDueDate.value
+                    })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(assignmentMessage, data.message, 'success');
+                    createAssignmentForm.reset();
+                    loadAssignments(currentClassroom.id); // Reload list
+                } else {
+                    showMessage(assignmentMessage, data.message || 'Failed to create assignment.', 'error');
+                }
+            } catch (error) {
+                console.error('Error creating assignment:', error);
+                showMessage(assignmentMessage, 'Network error creating assignment.', 'error');
+            }
+        });
+
+        const submitAssignment = async (assignmentId, submissionText) => {
+            showMessage(assignmentMessage, 'Submitting assignment...', 'info');
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/assignments/${assignmentId}/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ submission_text: submissionText })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(assignmentMessage, data.message, 'success');
+                    loadAssignments(currentClassroom.id); // Reload to reflect submission status if needed (though current UI doesn't show it)
+                } else {
+                    showMessage(assignmentMessage, data.message || 'Failed to submit assignment.', 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting assignment:', error);
+                showMessage(assignmentMessage, 'Network error submitting assignment.', 'error');
+            }
+        };
+
+        const viewAssignmentSubmissions = async (assignmentId) => {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/assignments/${assignmentId}/submissions`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    let submissionsHtml = `<h5>Submissions for this Assignment:</h5>`;
+                    if (data.submissions && data.submissions.length > 0) {
+                        submissionsHtml += `<ul class="feature-list">`;
+                        data.submissions.forEach(submission => {
+                            submissionsHtml += `
+                                <li class="feature-list-item">
+                                    <div>
+                                        <h5>${submission.student_name}</h5>
+                                        <p>Submitted: ${formatDate(submission.submitted_at)}</p>
+                                        <p>Submission: <a href="${submission.submission_text}" target="_blank">${submission.submission_text}</a></p>
+                                        ${submission.grade ? `<p>Grade: <strong>${submission.grade}</strong></p>` : ''}
+                                    </div>
+                                    <div class="item-actions">
+                                        <!-- Add grade input/button here for future -->
+                                        <button class="btn secondary" disabled>Grade (Future)</button>
+                                    </div>
+                                </li>
+                            `;
+                        });
+                        submissionsHtml += `</ul>`;
+                    } else {
+                        submissionsHtml += `<p class="no-content-message"><i class="fas fa-info-circle"></i> No submissions yet for this assignment.</p>`;
+                    }
+                    // For simplicity, display in an alert or a simple modal.
+                    // A proper modal/overlay would be better for a full app.
+                    const newWindow = window.open("", "_blank", "width=600,height=400");
+                    newWindow.document.write(`
+                        <html>
+                        <head>
+                            <title>Submissions</title>
+                            <style>
+                                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+                                h5 { color: #007bff; margin-bottom: 15px; }
+                                .feature-list-item { border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 8px; background-color: #f9f9f9; }
+                                .feature-list-item p { margin-bottom: 5px; font-size: 0.9em; }
+                                .feature-list-item h5 { margin-bottom: 5px; font-size: 1.1em; color: #333; }
+                                a { color: #007bff; text-decoration: none; }
+                                a:hover { text-decoration: underline; }
+                                .no-content-message { text-align: center; padding: 20px; background-color: #f0f8ff; border: 1px dashed #cce7ff; border-radius: 8px; color: #007bff; font-style: italic; }
+                            </style>
+                        </head>
+                        <body>${submissionsHtml}</body>
+                        </html>
+                    `);
+
+                } else {
+                    showMessage(assignmentMessage, data.message || 'Failed to load submissions.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+                showMessage(assignmentMessage, 'Network error loading submissions.', 'error');
+            }
+        };
+
+        // --- Notes Logic ---
+        const loadNotes = async (classroomId) => {
+            notesList.innerHTML = '';
+            noNotesMessage.classList.add('hidden');
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}/notes`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.notes && data.notes.length > 0) {
+                        data.notes.forEach(note => {
+                            const listItem = document.createElement('li');
+                            listItem.classList.add('feature-list-item');
+                            listItem.innerHTML = `
+                                <div>
+                                    <h5>${note.title}</h5>
+                                    <p>${note.content}</p>
+                                    <p>Posted: ${formatDate(note.created_at)} by ${note.teacher_name}</p>
+                                </div>
+                            `;
+                            notesList.appendChild(listItem);
+                        });
+                    } else {
+                        noNotesMessage.classList.remove('hidden');
+                    }
+                } else {
+                    showMessage(noteMessage, data.message || 'Failed to load notes.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading notes:', error);
+                showMessage(noteMessage, 'Network error loading notes.', 'error');
+            }
+        };
+
+        createNoteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showMessage(noteMessage, 'Adding note...', 'info');
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${currentClassroom.id}/notes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title: noteTitle.value,
+                        content: noteContent.value
+                    })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(noteMessage, data.message, 'success');
+                    createNoteForm.reset();
+                    loadNotes(currentClassroom.id); // Reload list
+                } else {
+                    showMessage(noteMessage, data.message || 'Failed to add note.', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding note:', error);
+                showMessage(noteMessage, 'Network error adding note.', 'error');
+            }
+        });
+
+        // --- Fees Logic ---
+        const loadFees = async (classroomId) => {
+            teacherFeeList.innerHTML = '';
+            studentFeeList.innerHTML = '';
+            noStudentsForFees.classList.add('hidden');
+            noStudentFeesHistory.classList.add('hidden');
+
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/${classroomId}/fees`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (userRole === 'teacher') {
+                        if (data.fees_summary && data.fees_summary.length > 0) {
+                            data.fees_summary.forEach(record => {
+                                const item = document.createElement('div');
+                                item.classList.add('feature-list-item');
+                                item.classList.add(record.status === 'Paid' ? 'is-paid' : 'is-due');
+                                item.innerHTML = `
+                                    <div>
+                                        <h5>${record.student_name}</h5>
+                                        <p>Amount Due: $${record.amount_due || 'N/A'}</p>
+                                        <p>Status: <strong>${record.status}</strong></p>
+                                        ${record.paid_date ? `<p>Paid Date: ${formatDate(record.paid_date)}</p>` : ''}
+                                    </div>
+                                    <div class="item-actions">
+                                        ${record.status === 'Due' ? `<button class="btn primary record-payment-btn" data-fee-id="${record.id}" data-student-id="${record.student_id}"><i class="fas fa-hand-holding-usd"></i> Record Payment</button>` : ''}
+                                    </div>
+                                `;
+                                teacherFeeList.appendChild(item);
+                            });
+                            document.querySelectorAll('.record-payment-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => recordPayment(e.currentTarget.dataset.feeId));
+                            });
+                        } else {
+                            noStudentsForFees.classList.remove('hidden');
+                        }
+                    } else if (userRole === 'student') {
+                        if (data.my_fees && data.my_fees.length > 0) {
+                            data.my_fees.forEach(record => {
+                                const item = document.createElement('div');
+                                item.classList.add('feature-list-item');
+                                item.classList.add(record.status === 'Paid' ? 'is-paid' : 'is-due');
+                                item.innerHTML = `
+                                    <div>
+                                        <h5>Fee Status</h5>
+                                        <p>Amount Due: <strong>$${record.amount_due || 'N/A'}</strong></p>
+                                        <p>Status: <strong>${record.status}</strong></p>
+                                        ${record.paid_date ? `<p>Paid Date: ${formatDate(record.paid_date)}</p>` : ''}
+                                    </div>
+                                    <div class="item-actions">
+                                        ${record.status === 'Due' ? `<button class="btn tertiary pay-fee-btn" data-fee-id="${record.id}"><i class="fas fa-credit-card"></i> Pay Now</button>` : ''}
+                                    </div>
+                                `;
+                                studentFeeList.appendChild(item);
+                            });
+                            document.querySelectorAll('.pay-fee-btn').forEach(btn => {
+                                btn.addEventListener('click', (e) => payFee(e.currentTarget.dataset.feeId));
+                            });
+                        } else {
+                            noStudentFeesHistory.classList.remove('hidden');
+                        }
+                    }
+                } else {
+                    showMessage(feesMessage, data.message || 'Failed to load fees information.', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading fees:', error);
+                showMessage(feesMessage, 'Network error loading fees.', 'error');
+            }
+        };
+
+        const recordPayment = async (feeId) => {
+            showMessage(feesMessage, 'Recording payment...', 'info');
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/fees/${feeId}/pay`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ /* No specific payload needed for a simple record */ })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(feesMessage, data.message, 'success');
+                    loadFees(currentClassroom.id); // Reload list
+                } else {
+                    showMessage(feesMessage, data.message || 'Failed to record payment.', 'error');
+                }
+            } catch (error) {
+                console.error('Error recording payment:', error);
+                showMessage(feesMessage, 'Network error recording payment.', 'error');
+            }
+        };
+
+        const payFee = async (feeId) => {
+            // Simulate a payment process
+            const confirmPayment = confirm('Are you sure you want to proceed with payment? (This is a simulated payment)');
+            if (!confirmPayment) {
+                showMessage(feesMessage, 'Payment cancelled.', 'info');
+                return;
+            }
+
+            showMessage(feesMessage, 'Processing payment...', 'info');
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_BASE_URL}/fees/${feeId}/pay`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ /* No specific payload needed for a simple record */ })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(feesMessage, data.message, 'success');
+                    loadFees(currentClassroom.id); // Reload list
+                } else {
+                    showMessage(feesMessage, data.message || 'Payment failed.', 'error');
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                showMessage(feesMessage, 'Network error processing payment.', 'error');
+            }
+        };
+
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', renderUI);
+
+        showLoginBtn.addEventListener('click', () => {
+            loginForm.classList.add('active-form');
+            signupForm.classList.remove('active-form');
+            showLoginBtn.classList.add('active');
+            showSignupBtn.classList.remove('active');
+            clearMessage(loginMessage);
+            clearMessage(signupMessage);
+        });
+
+        showSignupBtn.addEventListener('click', () => {
+            signupForm.classList.add('active-form');
+            loginForm.classList.remove('active-form');
+            showSignupBtn.classList.add('active');
+            showLoginBtn.classList.remove('active');
+            clearMessage(loginMessage);
+            clearMessage(signupMessage);
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginForm.loginEmail.value;
+            const password = loginForm.loginPassword.value;
+
+            showMessage(loginMessage, 'Logging in...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userRole', data.user.role);
+                    localStorage.setItem('userName', data.user.fullName);
+                    localStorage.setItem('userEmail', data.user.email);
+
+                    showMessage(loginMessage, data.message, 'success');
+                    setTimeout(renderUI, 500); // Re-render UI after successful login
+                } else {
+                    showMessage(loginMessage, data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage(loginMessage, 'Network error or server unavailable.', 'error');
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = signupForm.signupName.value;
+            const email = signupForm.signupEmail.value;
+            const password = signupForm.signupPassword.value;
+            const role = signupForm.signupRole.value;
+
+            showMessage(signupMessage, 'Signing up...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password, role }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userRole', data.user.role);
+                    localStorage.setItem('userName', data.user.fullName);
+                    localStorage.setItem('userEmail', data.user.email);
+
+                    showMessage(signupMessage, data.message, 'success');
+                    signupForm.reset();
+                    setTimeout(renderUI, 500); // Re-render UI after successful signup
+                } else {
+                    showMessage(signupMessage, data.message || 'Signup failed', 'error');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                showMessage(signupMessage, 'Network error or server unavailable.', 'error');
+            }
+        });
+
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.clear(); // Clear all user data
+            renderUI(); // Re-render UI to show login page
+            alert('You have been logged out.');
+        });
+
+        dashboardLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderUI(); // Simply call renderUI to go back to main dashboard view
+        });
+
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            teacherDashboard.classList.add('hidden');
+            studentDashboard.classList.add('hidden');
+            classroomDetailSection.classList.add('hidden'); // Hide class detail if open
+            profileSection.classList.remove('hidden');
+            profileLink.classList.add('active');
+            dashboardLink.classList.remove('active');
+        });
+
+        backToDashboardBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderUI(); // Back to main dashboard
+        });
+
+        // Teacher Dashboard: Create Classroom Form Toggle
+        createClassBtn.addEventListener('click', () => {
+            createClassFormContainer.classList.remove('hidden');
+            createClassBtn.classList.add('hidden');
+            clearMessage(createClassMessage);
+            createClassForm.reset();
+        });
+
+        cancelCreateClassBtn.addEventListener('click', () => {
+            createClassFormContainer.classList.add('hidden');
+            createClassBtn.classList.remove('hidden');
+            clearMessage(createClassMessage);
+            createClassForm.reset();
+        });
+
+        createClassForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const className = createClassForm.className.value;
+            const classDescription = createClassForm.classDescription.value;
+            const token = localStorage.getItem('token');
+
+            showMessage(createClassMessage, 'Creating classroom...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name: className, description: classDescription }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(createClassMessage, data.message, 'success');
+                    createClassForm.reset();
+                    setTimeout(() => {
+                        createClassFormContainer.classList.add('hidden');
+                        createClassBtn.classList.remove('hidden');
+                        clearMessage(createClassMessage);
+                        loadDashboardContent(); // Reload classrooms after creation
+                    }, 1000);
+                } else {
+                    showMessage(createClassMessage, data.message || 'Failed to create classroom', 'error');
+                }
+            } catch (error) {
+                console.error('Create classroom error:', error);
+                showMessage(createClassMessage, 'Network error. Could not create classroom.', 'error');
+            }
+        });
+
+        // Student Dashboard: Join Classroom
+        joinClassForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const classCode = joinClassForm.classCode.value;
+            const token = localStorage.getItem('token');
+
+            showMessage(joinClassMessage, 'Attempting to join classroom...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ classCode }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(joinClassMessage, data.message, 'success');
+                    joinClassForm.reset();
+                    setTimeout(() => {
+                        clearMessage(joinClassMessage);
+                        loadDashboardContent(); // Reload joined classrooms
+                    }, 1000);
+                } else {
+                    showMessage(joinClassMessage, data.message || 'Failed to join classroom', 'error');
+                }
+            } catch (error) {
+                console.error('Join classroom error:', error);
+                showMessage(joinClassMessage, 'Network error. Could not join classroom.', 'error');
+            }
+        });
+
+        // Copy Class Code
+        copyClassCodeBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(classroomDetailCode.textContent);
+                showMessage(copyMessage, 'Copied!', 'success', 1500);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                showMessage(copyMessage, 'Failed to copy!', 'error', 1500);
+            }
+        });
+
+    </script>
+</body>
+</html>

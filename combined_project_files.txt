@@ -1,0 +1,1115 @@
+
+--- START FILE: index.html ---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coaching Portal</title>
+    <style>
+        /* Basic Reset & Body Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .main-header {
+            background: #007bff;
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header h1 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-header nav ul li {
+            margin-left: 20px;
+        }
+
+        .main-header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header nav ul li a:hover,
+        .main-header nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn.primary {
+            background: #007bff;
+        }
+
+        .btn.primary:hover {
+            background: #0056b3;
+        }
+
+        .btn.secondary {
+            background: #6c757d;
+        }
+
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn.tertiary {
+            background: #28a745; /* Green */
+        }
+
+        .btn.tertiary:hover {
+            background: #218838;
+        }
+
+        .btn.danger {
+            background: #dc3545;
+        }
+
+        .btn.danger:hover {
+            background: #c82333;
+        }
+
+
+        /* Forms */
+        .auth-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-switch {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .auth-switch button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .auth-switch button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .auth-form {
+            padding-top: 20px;
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .auth-form .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            color: #dc3545; /* Red for errors */
+            font-weight: bold;
+        }
+
+        .message.success {
+            color: #28a745; /* Green for success */
+        }
+
+        /* Dashboard & Classroom Layouts */
+        .dashboard-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-section h2 {
+            margin-bottom: 25px;
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .dashboard-section h3 {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-container {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-container .btn {
+            margin-right: 10px;
+        }
+
+        /* Classroom Cards */
+        .classroom-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .classroom-card {
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .classroom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .classroom-card h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .card-actions {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .active-form {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1>Coaching Portal</h1>
+            <nav id="mainNav" class="hidden">
+                <ul>
+                    <li><a href="#" id="dashboardLink" class="active">Dashboard</a></li>
+                    <li><a href="#" id="profileLink">Profile</a></li>
+                    <li><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Login/Signup Section -->
+        <section id="authSection" class="auth-container">
+            <div class="auth-switch">
+                <button id="showLoginBtn" class="active">Login</button>
+                <button id="showSignupBtn">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn primary">Login</button>
+                <p class="message" id="loginMessage"></p>
+            </form>
+
+            <form id="signupForm" class="auth-form hidden">
+                <h2>Sign Up</h2>
+                <div class="form-group">
+                    <label for="signupName">Full Name:</label>
+                    <input type="text" id="signupName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email:</label>
+                    <input type="email" id="signupEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password:</label>
+                    <input type="password" id="signupPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupRole">I am a:</label>
+                    <select id="signupRole" name="role" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary">Sign Up</button>
+                <p class="message" id="signupMessage"></p>
+            </form>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="dashboard-content hidden">
+            <div id="teacherDashboard" class="dashboard-section hidden">
+                <h2>Teacher Dashboard</h2>
+                <button class="btn primary" id="createClassBtn">Create New Classroom</button>
+
+                <div id="createClassFormContainer" class="form-container hidden">
+                    <h3>Create Classroom</h3>
+                    <form id="createClassForm">
+                        <div class="form-group">
+                            <label for="className">Class Name:</label>
+                            <input type="text" id="className" name="className" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="classDescription">Description:</label>
+                            <textarea id="classDescription" name="classDescription"></textarea>
+                        </div>
+                        <button type="submit" class="btn primary">Create Class</button>
+                        <button type="button" class="btn secondary" id="cancelCreateClassBtn">Cancel</button>
+                        <p class="message" id="createClassMessage"></p>
+                    </form>
+                </div>
+
+                <h3>My Classrooms</h3>
+                <div id="teacherClassroomsList" class="classroom-list">
+                    <!-- Classrooms will be loaded here by JS -->
+                    <p id="noTeacherClasses" class="message success">No classrooms created yet. Create one!</p>
+                </div>
+            </div>
+
+            <div id="studentDashboard" class="dashboard-section hidden">
+                <h2>Student Dashboard</h2>
+                <div class="join-class-section">
+                    <h3>Join a Classroom</h3>
+                    <form id="joinClassForm">
+                        <div class="form-group">
+                            <label for="classCode">Classroom Code:</label>
+                            <input type="text" id="classCode" name="classCode" placeholder="e.g., ABC123" required>
+                        </div>
+                        <button type="submit" class="btn primary">Join Class</button>
+                        <p class="message" id="joinClassMessage"></p>
+                    </form>
+                </div>
+
+                <h3>My Joined Classrooms</h3>
+                <div id="studentClassroomsList" class="classroom-list">
+                    <!-- Joined classrooms will be loaded here by JS -->
+                    <p id="noStudentClasses" class="message success">You haven't joined any classrooms yet. Join one!</p>
+                </div>
+            </div>
+
+            <!-- Profile Section (Placeholder for future expansion) -->
+            <div id="profileSection" class="dashboard-section hidden">
+                <h2>My Profile</h2>
+                <p>Name: <span id="profileName"></span></p>
+                <p>Email: <span id="profileEmail"></span></p>
+                <p>Role: <span id="profileRole"></span></p>
+                <button class="btn secondary">Edit Profile (Coming Soon)</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // script.js (Frontend Logic - embedded)
+
+        const API_BASE_URL = 'http://localhost:3000/api'; // Ensure this matches your backend port
+
+        // DOM Elements
+        const authSection = document.getElementById('authSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const mainNav = document.getElementById('mainNav');
+
+        const showLoginBtn = document.getElementById('showLoginBtn');
+        const showSignupBtn = document.getElementById('showSignupBtn');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const signupMessage = document.getElementById('signupMessage');
+
+        const teacherDashboard = document.getElementById('teacherDashboard');
+        const studentDashboard = document.getElementById('studentDashboard');
+        const profileSection = document.getElementById('profileSection');
+        const dashboardLink = document.getElementById('dashboardLink');
+        const profileLink = document.getElementById('profileLink');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        const createClassBtn = document.getElementById('createClassBtn');
+        const createClassFormContainer = document.getElementById('createClassFormContainer');
+        const cancelCreateClassBtn = document.getElementById('cancelCreateClassBtn');
+        const createClassForm = document.getElementById('createClassForm');
+        const createClassMessage = document.getElementById('createClassMessage');
+        const teacherClassroomsList = document.getElementById('teacherClassroomsList');
+        const noTeacherClasses = document.getElementById('noTeacherClasses');
+
+        const joinClassForm = document.getElementById('joinClassForm');
+        const joinClassMessage = document.getElementById('joinClassMessage');
+        const studentClassroomsList = document.getElementById('studentClassroomsList');
+        const noStudentClasses = document.getElementById('noStudentClasses');
+
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profileRole = document.getElementById('profileRole');
+
+        // Helper function to display messages
+        const showMessage = (element, msg, type = 'error') => {
+            element.textContent = msg;
+            element.className = `message ${type}`;
+        };
+
+        const clearMessage = (element) => {
+            element.textContent = '';
+            element.className = 'message';
+        };
+
+        // --- Core UI Management ---
+        const renderUI = () => {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (token && userRole) {
+                // User is logged in
+                authSection.classList.add('hidden');
+                dashboardSection.classList.remove('hidden');
+                mainNav.classList.remove('hidden');
+
+                profileName.textContent = userName || 'N/A';
+                profileEmail.textContent = userEmail || 'N/A';
+                profileRole.textContent = userRole || 'N/A';
+
+                // Display appropriate dashboard
+                if (userRole === 'teacher') {
+                    teacherDashboard.classList.remove('hidden');
+                    studentDashboard.classList.add('hidden');
+                } else if (userRole === 'student') {
+                    studentDashboard.classList.remove('hidden');
+                    teacherDashboard.classList.add('hidden');
+                }
+                loadDashboardContent(); // Load data for the dashboard
+            } else {
+                // User is not logged in
+                authSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+                mainNav.classList.add('hidden');
+            }
+        };
+
+        const loadDashboardContent = async () => {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+
+            if (!token || !userRole) return; // Should be handled by renderUI already
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    renderClassrooms(data.classrooms, userRole);
+                } else {
+                    console.error('Failed to fetch classrooms:', data.message);
+                    showMessage(userRole === 'teacher' ? teacherClassroomsList : studentClassroomsList, `Error loading classrooms: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Network error fetching classrooms:', error);
+                showMessage(userRole === 'teacher' ? teacherClassroomsList : studentClassroomsList, 'Network error. Could not load classrooms.');
+            }
+        };
+
+        const renderClassrooms = (classrooms, userRole) => {
+            if (userRole === 'teacher') {
+                teacherClassroomsList.innerHTML = ''; // Clear existing
+                if (classrooms.length === 0) {
+                    noTeacherClasses.classList.remove('hidden');
+                    teacherClassroomsList.appendChild(noTeacherClasses);
+                    return;
+                }
+                noTeacherClasses.classList.add('hidden');
+                classrooms.forEach(classroom => {
+                    const card = document.createElement('div');
+                    card.classList.add('classroom-card');
+                    card.innerHTML = `
+                        <h4>${classroom.name}</h4>
+                        <p>${classroom.description || 'No description provided.'}</p>
+                        <p><strong>Class Code:</strong> <code>${classroom.class_code}</code></p>
+                        <div class="card-actions">
+                            <button class="btn secondary">Manage (Future)</button>
+                            <button class="btn danger">Delete (Future)</button>
+                        </div>
+                    `;
+                    teacherClassroomsList.appendChild(card);
+                });
+            } else if (userRole === 'student') {
+                studentClassroomsList.innerHTML = ''; // Clear existing
+                if (classrooms.length === 0) {
+                    noStudentClasses.classList.remove('hidden');
+                    studentClassroomsList.appendChild(noStudentClasses);
+                    return;
+                }
+                noStudentClasses.classList.add('hidden');
+                classrooms.forEach(classroom => {
+                    const card = document.createElement('div');
+                    card.classList.add('classroom-card');
+                    card.innerHTML = `
+                        <h4>${classroom.name}</h4>
+                        <p>${classroom.description || 'No description provided.'}</p>
+                        <p>Teacher: ${classroom.teacher_name || 'N/A'}</p>
+                        <div class="card-actions">
+                            <button class="btn tertiary">Go to Class (Future)</button>
+                        </div>
+                    `;
+                    studentClassroomsList.appendChild(card);
+                });
+            }
+        };
+
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', renderUI);
+
+        showLoginBtn.addEventListener('click', () => {
+            loginForm.classList.add('active-form');
+            signupForm.classList.remove('active-form');
+            showLoginBtn.classList.add('active');
+            showSignupBtn.classList.remove('active');
+            clearMessage(loginMessage);
+            clearMessage(signupMessage);
+        });
+
+        showSignupBtn.addEventListener('click', () => {
+            signupForm.classList.add('active-form');
+            loginForm.classList.remove('active-form');
+            showSignupBtn.classList.add('active');
+            showLoginBtn.classList.remove('active');
+            clearMessage(loginMessage);
+            clearMessage(signupMessage);
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginForm.loginEmail.value;
+            const password = loginForm.loginPassword.value;
+
+            showMessage(loginMessage, 'Logging in...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userRole', data.user.role);
+                    localStorage.setItem('userName', data.user.fullName);
+                    localStorage.setItem('userEmail', data.user.email);
+
+                    showMessage(loginMessage, data.message, 'success');
+                    setTimeout(renderUI, 500); // Re-render UI after successful login
+                } else {
+                    showMessage(loginMessage, data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage(loginMessage, 'Network error or server unavailable.', 'error');
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = signupForm.signupName.value;
+            const email = signupForm.signupEmail.value;
+            const password = signupForm.signupPassword.value;
+            const role = signupForm.signupRole.value;
+
+            showMessage(signupMessage, 'Signing up...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password, role }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userRole', data.user.role);
+                    localStorage.setItem('userName', data.user.fullName);
+                    localStorage.setItem('userEmail', data.user.email);
+
+                    showMessage(signupMessage, data.message, 'success');
+                    signupForm.reset();
+                    setTimeout(renderUI, 500); // Re-render UI after successful signup
+                } else {
+                    showMessage(signupMessage, data.message || 'Signup failed', 'error');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                showMessage(signupMessage, 'Network error or server unavailable.', 'error');
+            }
+        });
+
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.clear(); // Clear all user data
+            renderUI(); // Re-render UI to show login page
+            alert('You have been logged out.');
+        });
+
+        dashboardLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            teacherDashboard.classList.add('hidden');
+            studentDashboard.classList.add('hidden');
+            profileSection.classList.add('hidden');
+            const currentUserRole = localStorage.getItem('userRole');
+            if (currentUserRole === 'teacher') {
+                teacherDashboard.classList.remove('hidden');
+            } else if (currentUserRole === 'student') {
+                studentDashboard.classList.remove('hidden');
+            }
+            dashboardLink.classList.add('active');
+            profileLink.classList.remove('active');
+            loadDashboardContent(); // Reload data
+        });
+
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            teacherDashboard.classList.add('hidden');
+            studentDashboard.classList.add('hidden');
+            profileSection.classList.remove('hidden');
+            profileLink.classList.add('active');
+            dashboardLink.classList.remove('active');
+        });
+
+        // Teacher Dashboard: Create Classroom Form Toggle
+        createClassBtn.addEventListener('click', () => {
+            createClassFormContainer.classList.remove('hidden');
+            createClassBtn.classList.add('hidden');
+            clearMessage(createClassMessage);
+            createClassForm.reset();
+        });
+
+        cancelCreateClassBtn.addEventListener('click', () => {
+            createClassFormContainer.classList.add('hidden');
+            createClassBtn.classList.remove('hidden');
+            clearMessage(createClassMessage);
+            createClassForm.reset();
+        });
+
+        createClassForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const className = createClassForm.className.value;
+            const classDescription = createClassForm.classDescription.value;
+            const token = localStorage.getItem('token');
+
+            showMessage(createClassMessage, 'Creating classroom...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name: className, description: classDescription }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(createClassMessage, data.message, 'success');
+                    createClassForm.reset();
+                    setTimeout(() => {
+                        createClassFormContainer.classList.add('hidden');
+                        createClassBtn.classList.remove('hidden');
+                        clearMessage(createClassMessage);
+                        loadDashboardContent(); // Reload classrooms after creation
+                    }, 1000);
+                } else {
+                    showMessage(createClassMessage, data.message || 'Failed to create classroom', 'error');
+                }
+            } catch (error) {
+                console.error('Create classroom error:', error);
+                showMessage(createClassMessage, 'Network error. Could not create classroom.', 'error');
+            }
+        });
+
+        // Student Dashboard: Join Classroom
+        joinClassForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const classCode = joinClassForm.classCode.value;
+            const token = localStorage.getItem('token');
+
+            showMessage(joinClassMessage, 'Attempting to join classroom...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/classrooms/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ classCode }),
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(joinClassMessage, data.message, 'success');
+                    joinClassForm.reset();
+                    setTimeout(() => {
+                        clearMessage(joinClassMessage);
+                        loadDashboardContent(); // Reload joined classrooms
+                    }, 1000);
+                } else {
+                    showMessage(joinClassMessage, data.message || 'Failed to join classroom', 'error');
+                }
+            } catch (error) {
+                console.error('Join classroom error:', error);
+                showMessage(joinClassMessage, 'Network error. Could not join classroom.', 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+--- END FILE: index.html ---
+
+--- START FILE: package.json ---
+
+{
+  "name": "the-coaching-portal",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "sqlite3": "^5.1.7"
+  }
+}
+
+
+--- END FILE: package.json ---
+
+--- START FILE: server.js ---
+
+// server.js (Backend)
+
+// ----------------------
+// 1. Setup & Imports
+// ----------------------
+require('dotenv').config(); // Load environment variables from .env file
+const express = require('express');
+const cors = require('cors'); // For Cross-Origin Resource Sharing
+const jwt = require('jsonwebtoken'); // For JSON Web Tokens (authentication)
+const bcrypt = require('bcryptjs'); // For password hashing
+const Database = require('better-sqlite3'); // SQLite database driver
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// ----------------------
+// 2. Middleware
+// ----------------------
+app.use(cors()); // Allow requests from our frontend
+app.use(express.json()); // Parse JSON request bodies
+
+// ----------------------
+// 3. Database Setup (SQLite)
+// ----------------------
+const db = new Database('coaching_portal.db'); // This creates/opens the database file
+
+// Function to initialize tables if they don't exist
+const initializeDb = () => {
+    // Users table
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            full_name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL CHECK(role IN ('teacher', 'student')),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
+    // Classrooms table
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS classrooms (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            teacher_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT,
+            class_code TEXT UNIQUE NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (teacher_id) REFERENCES users(id)
+        );
+    `);
+
+    // Junction table for students and classrooms (many-to-many)
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS student_classrooms (
+            student_id INTEGER NOT NULL,
+            classroom_id INTEGER NOT NULL,
+            joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (student_id, classroom_id),
+            FOREIGN KEY (student_id) REFERENCES users(id),
+            FOREIGN KEY (classroom_id) REFERENCES classrooms(id)
+        );
+    `);
+    console.log('Database tables checked/created.');
+};
+initializeDb();
+
+// ----------------------
+// 4. Authentication Middleware
+// ----------------------
+const authenticateToken = (req, res, next) => {
+    // Get token from header (usually 'Bearer TOKEN') or 'x-auth-token'
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Extract token after 'Bearer '
+
+    if (token == null) {
+        // Also check x-auth-token for simpler clients
+        const xAuthToken = req.headers['x-auth-token'];
+        if (xAuthToken) {
+            token = xAuthToken;
+        } else {
+            return res.status(401).json({ message: 'Authorization token required' });
+        }
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            console.error("JWT Verification Error:", err.message);
+            return res.status(403).json({ message: 'Invalid or expired token' });
+        }
+        req.user = user; // Attach user payload (id, role) to request
+        next();
+    });
+};
+
+// ----------------------
+// 5. Helper Functions
+// ----------------------
+// Generate a simple, unique class code (e.g., ABC123)
+const generateClassCode = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    // Check for uniqueness in a real app, regenerate if duplicate
+    return result;
+};
+
+// ----------------------
+// 6. API Endpoints
+// ----------------------
+
+// A. User Authentication
+app.post('/api/signup', async (req, res) => {
+    const { fullName, email, password, role } = req.body;
+
+    if (!fullName || !email || !password || !role) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
+    if (!['teacher', 'student'].includes(role)) {
+        return res.status(400).json({ message: 'Invalid role specified.' });
+    }
+
+    try {
+        const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
+        if (existingUser) {
+            return res.status(409).json({ message: 'User with this email already exists.' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        const stmt = db.prepare('INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)');
+        const info = stmt.run(fullName, email, passwordHash, role);
+        const userId = info.lastInsertRowid;
+
+        const token = jwt.sign({ id: userId, role: role }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(201).json({
+            message: 'User registered successfully!',
+            token,
+            user: { id: userId, fullName, email, role }
+        });
+    } catch (error) {
+        console.error('Signup error:', error);
+        res.status(500).json({ message: 'Server error during signup.' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required.' });
+    }
+
+    try {
+        const user = db.prepare('SELECT id, full_name, email, password_hash, role FROM users WHERE email = ?').get(email);
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials.' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials.' });
+        }
+
+        const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(200).json({
+            message: 'Logged in successfully!',
+            token,
+            user: { id: user.id, fullName: user.full_name, email: user.email, role: user.role }
+        });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'Server error during login.' });
+    }
+});
+
+// B. Classroom Management
+app.post('/api/classrooms', authenticateToken, (req, res) => {
+    if (req.user.role !== 'teacher') {
+        return res.status(403).json({ message: 'Access denied. Only teachers can create classrooms.' });
+    }
+
+    const { name, description } = req.body;
+    if (!name) {
+        return res.status(400).json({ message: 'Classroom name is required.' });
+    }
+
+    try {
+        const teacherId = req.user.id;
+        const classCode = generateClassCode(); // In real app, ensure uniqueness
+        const stmt = db.prepare('INSERT INTO classrooms (teacher_id, name, description, class_code) VALUES (?, ?, ?, ?)');
+        const info = stmt.run(teacherId, name, description, classCode);
+        const classroomId = info.lastInsertRowid;
+
+        res.status(201).json({
+            message: 'Classroom created successfully!',
+            classroom: { id: classroomId, teacher_id: teacherId, name, description, class_code: classCode }
+        });
+    } catch (error) {
+        console.error('Create classroom error:', error);
+        res.status(500).json({ message: 'Server error creating classroom.' });
+    }
+});
+
+app.get('/api/classrooms', authenticateToken, (req, res) => {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    try {
+        let classrooms;
+        if (userRole === 'teacher') {
+            // Get classrooms created by this teacher
+            classrooms = db.prepare('SELECT id, name, description, class_code FROM classrooms WHERE teacher_id = ?').all(userId);
+        } else if (userRole === 'student') {
+            // Get classrooms this student has joined
+            classrooms = db.prepare(`
+                SELECT c.id, c.name, c.description, c.class_code, u.full_name as teacher_name
+                FROM classrooms c
+                JOIN student_classrooms sc ON c.id = sc.classroom_id
+                JOIN users u ON c.teacher_id = u.id
+                WHERE sc.student_id = ?
+            `).all(userId);
+        } else {
+            return res.status(403).json({ message: 'Invalid user role.' });
+        }
+        res.status(200).json({ classrooms });
+    } catch (error) {
+        console.error('Get classrooms error:', error);
+        res.status(500).json({ message: 'Server error fetching classrooms.' });
+    }
+});
+
+app.post('/api/classrooms/join', authenticateToken, (req, res) => {
+    if (req.user.role !== 'student') {
+        return res.status(403).json({ message: 'Access denied. Only students can join classrooms.' });
+    }
+
+    const { classCode } = req.body;
+    if (!classCode) {
+        return res.status(400).json({ message: 'Class code is required.' });
+    }
+
+    try {
+        const studentId = req.user.id;
+        const classroom = db.prepare('SELECT id FROM classrooms WHERE class_code = ?').get(classCode);
+
+        if (!classroom) {
+            return res.status(404).json({ message: 'Classroom not found with this code.' });
+        }
+
+        // Check if student already joined
+        const existingJoin = db.prepare('SELECT * FROM student_classrooms WHERE student_id = ? AND classroom_id = ?').get(studentId, classroom.id);
+        if (existingJoin) {
+            return res.status(409).json({ message: 'You have already joined this classroom.' });
+        }
+
+        const stmt = db.prepare('INSERT INTO student_classrooms (student_id, classroom_id) VALUES (?, ?)');
+        stmt.run(studentId, classroom.id);
+
+        res.status(200).json({ message: 'Successfully joined classroom!', classroom_id: classroom.id });
+    } catch (error) {
+        console.error('Join classroom error:', error);
+        res.status(500).json({ message: 'Server error joining classroom.' });
+    }
+});
+
+// ----------------------
+// 7. Start Server
+// ----------------------
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
+--- END FILE: server.js ---
+
+------------------------------------------------------------------------------
+
+include all the features mentioned below and improve the website frontend : 
+
+a coaching portal where students and teachers can sign in/sign up and create a classroom, share a classroom link and join using it and the attendance, fees payments, assignments and class notes everything will be recorded there all in one place. students will be able to pay their fees from there.
